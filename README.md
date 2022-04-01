@@ -13,12 +13,12 @@ Follow the steps [here](https://kubernetes.github.io/ingress-nginx/deploy/) to d
 
 
 ### Get the Ingress Controller's External IP
-After you have deployed the Ingress Controller get its external IP:
+After you have deployed the Ingress Controller, get its external IP:
 
   <img src="images/nginx-service-ip.png" width="70%">
 
 ### (Optional) Create a DNS entry for the Ingress Controller's External IP 
-To use a hostname rather than an IP address for the Transformer URL, assign a FQDN to the Ingress Controller's External IP by adding an entry to your DNS.  For example, I'll assign the name ````streamsets.onefoursix.com```` to my Ingress Controller's IP address.  If you don't have access to a DNS, you can skip this step and just use the Ingress Controller's IP address instead.
+To use a hostname rather than an IP address for the Transformer URL, assign an FQDN to the Ingress Controller's external IP by adding an entry to your DNS.  For example, I'll assign the name ````streamsets.onefoursix.com```` to my Ingress Controller's IP address.  If you don't have access to a DNS, you can skip this step and just use the Ingress Controller's IP address instead.
 
 ### Clone this project to your local machine
 Clone this project to your local machine in order to edit the deploy script and manifests.
@@ -106,11 +106,11 @@ ingress.networking.k8s.io/transformer created
 ````
 
 ### Confirm that Transformer is heartbeating to Control Hub
-You should see the instance of Transformer is heartbeating to Control Hub:
+After a minute or so, you should see the instance of Transformer has registered and is heartbeating to Control Hub:
 
   <img src="images/transformer-heartbeat.png" width="70%">
 
-### Confirm that Transformer is available for Authoring
+### Confirm that Transformer is Accessible
 Create a new pipeline and make sure Transformer is accessible for Authoring:
 
   <img src="images/authoring-transformer.png" width="70%">
