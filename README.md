@@ -5,7 +5,8 @@ This project provides an example of deploying [StreamSets Transformer Engine](ht
 
 ### Prerequisites
 * API Credentials for an admin account on DataOps Platform
-* [jq](https://stedolan.github.io/jq/) must be installed on the machine where this project's scripts will be run
+* [jq](https://stedolan.github.io/jq/) must be installed on the machine where this project's scripts are run
+* [uuidgen](https://man7.org/linux/man-pages/man1/uuidgen.1.html) must be installed on the machine where this project's scripts are run
 
 
 ### Deploy the Ingress Controller

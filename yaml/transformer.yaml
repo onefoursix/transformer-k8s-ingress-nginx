@@ -27,7 +27,7 @@ spec:
       serviceAccountName: streamsets-transformer
       containers:
         - name: streamsets
-          image: streamsets/transformer:scala-2.11_4.2.0
+          image: streamsets/transformer:scala-2.12_4.2.0
           ports:
             - containerPort: 19630
               protocol: TCP

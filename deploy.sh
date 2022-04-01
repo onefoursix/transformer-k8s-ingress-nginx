@@ -36,7 +36,7 @@ kubectl create secret generic streamsets-transformer-creds \
     --from-literal=transformer_token_string="${TRANSFORMER_TOKEN}"
 
 ## Generate a UUID for transformer
-transformer_id=$(docker run --rm andyneff/uuidgen uuidgen -t)
+transformer_id=$(uuidgen)
 echo "${transformer_id}" > transformer.id
 
     
