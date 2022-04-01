@@ -58,12 +58,6 @@ Important points:
 * The ````TRANSFORMER_EXTERNAL_URL```` must correspond to the Ingress Controller's base URL plus the path-prefix to the Transformer instance as set in the ````ingress.yaml```` (see below). For this example I'll use the url ````http://streamsets.onefoursix.com/transformer````
 
 ### Edit transformer.yaml
-Edit the file ````yaml/transformer.yaml```` and make these two changes:
-
-* Set your own namespace
-The example file ````yaml/transformer.yaml```` uses the namespace ````ns1````. Replace that with your desired namespace.
-
-* Set the Transformer Version
 
 Edit the file ````yaml/transformer.yaml```` and set the version of Transformer to use. For example, for Spark 3.x clusters that require Scala 2.12, set:
 
@@ -75,16 +69,7 @@ Edit the file ````yaml/transformer.yaml```` and set the version of Transformer t
 
 See the [Cluster Compatibility Matrix](https://docs.streamsets.com/portal/platform-transformer/latest/transformer/Installation/Install-Reqs.html#concept_yyv_s5y_5pb) for details.
 
-### Edit service.yaml
-The example file ````yaml/service.yaml```` uses the namespace ````ns1````. Replace that with your desired namespace.
-
 ### Edit ingress.yaml
-
-* Set your own namespace
-
-The example file ````yaml/ingress.yaml```` uses the namespace ````ns1````. Replace that with your desired namespace.
-
-* Set your own path prefix if desired 
 
 By default the path prefix is set to ````/transformer````.  This path prefix will be appended to the base URL of the Ingress Controller to match the value set in the ````deploy.sh```` script's ````TRANSFORMER_EXTERNAL_URL```` variable, which in my environment is ````http://streamsets.onefoursix.com/transformer````.
 
