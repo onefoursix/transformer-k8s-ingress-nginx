@@ -1,13 +1,15 @@
 # transformer-k8s-ingress-nginx
 
 ### Overview
-This project provides an example of deploying [StreamSets Transformer Engine](https://streamsets.com/products/dataops-platform/transformer-etl-engine/) on Kubernetes using an [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) Ingress Controller for use with [StreamSets DataOps Platform](https://streamsets.com/products/dataops-platform/)
+This project provides an example of deploying one or more instances of [StreamSets Transformer Engine](https://streamsets.com/products/dataops-platform/transformer-etl-engine/) on Kubernetes using an [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) Ingress Controller for use with [StreamSets DataOps Platform](https://streamsets.com/products/dataops-platform/). Multiple instances of Transformer can be installed within the same namespace, or across multiple namespaces. This example will install three instances of Transformer within the same namespace.
 
 ### Prerequisites
 * API Credentials for an admin account on DataOps Platform
 * [jq](https://stedolan.github.io/jq/) must be installed on the machine where this project's scripts are run
 * [uuidgen](https://man7.org/linux/man-pages/man1/uuidgen.1.html) must be installed on the machine where this project's scripts are run
-
+* [envsubst](https://linux.die.net/man/1/envsubst) must be installed on the machine where this project's scripts are run. Most systems will have ````envsubst```` installed by default.
+* The [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) Ingress Controller must be installed in advance (see below)
+* The Kubernetes namespace must be created in advance (see below) 
 
 ### Deploy the Ingress Controller
 Follow the steps [here](https://kubernetes.github.io/ingress-nginx/deploy/) to deploy ````ingress-nginx```` on your cluster.  If your Kubernetes cluster is on a public cloud, use a Load-Balancer type deployment, else use a NodePort. For this example I will deploy on GKE using a Load-Balancer type Ingress Controller.
@@ -21,8 +23,14 @@ After you have deployed the Ingress Controller, get its external IP:
 ### (Optional) Create a DNS entry for the Ingress Controller's External IP 
 To use a hostname rather than an IP address for the Transformer URL, assign an FQDN to the Ingress Controller's external IP by adding an entry to your DNS.  For example, I'll assign the name ````streamsets.onefoursix.com```` to my Ingress Controller's IP address.  If you don't have access to a DNS, you can skip this step and just use the Ingress Controller's IP address instead.
 
+### Create the Kubernetes Namespace
+For this example I will create the namespace ````ns1````
+
+````$ kubectl create ns ns1````
+
 ### Clone this project to your local machine
-Clone this project to your local machine in order to edit the deploy script and manifests.
+Clone this project to your local machine. 
+````
 
 ### Edit the deploy.sh script
 Edit the ````deploy.sh```` script and set these variables at the top of the script (see below for details):

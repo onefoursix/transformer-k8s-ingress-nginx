@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: streamsets-transformer-pvc
+  name: "${TRANSFORMER_NAME}-pvc"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -13,52 +13,50 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: transformer
+  name: "${TRANSFORMER_NAME}"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: transformer
+      app: "${TRANSFORMER_NAME}"
   template:
     metadata:
       labels:
-        app: transformer
+        app: "${TRANSFORMER_NAME}"
     spec:
-      serviceAccountName: streamsets-transformer
+      serviceAccountName: "${TRANSFORMER_SERVICE_ACCOUNT_NAME}"
       containers:
-        - name: streamsets
-          image: streamsets/transformer:scala-2.12_4.2.0
+        - name: "${TRANSFORMER_NAME}"
+          image: "${TRANSFORMER_IMAGE}"
           ports:
-            - containerPort: 19630
+            - containerPort: ${TRANSFORMER_PORT}
               protocol: TCP
           env:
-            - name: HOST
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
+            - name: transformer_conf_http_port
+              value: "${TRANSFORMER_PORT}"
             - name: dpm_conf_dpm_enabled
               value: "true"
             - name: dpm_conf_dpm_base_url
               valueFrom:
                 configMapKeyRef:
-                  name: streamsets-transformer-config
+                  name: "${TRANSFORMER_NAME}-config"
                   key: sch_url
             - name: dpm_conf_dpm_remote_control_job_labels
-              value: "transformer"
+              value: "${TRANSFORMER_LABELS}"
             - name: transformer_token_string
               valueFrom:
                 secretKeyRef:
-                  name: streamsets-transformer-creds
+                  name: "${TRANSFORMER_NAME}-creds"
                   key: transformer_token_string
             - name: transformer_id
               valueFrom:
                 configMapKeyRef:
-                  name: streamsets-transformer-config
+                  name: "${TRANSFORMER_NAME}-config"
                   key: transformer_id
             - name: transformer_conf_transformer_base_http_url
               valueFrom:
                 configMapKeyRef:
-                  name: streamsets-transformer-config
+                  name: "${TRANSFORMER_NAME}-config"
                   key: transformer_external_url
             - name: transformer_conf_kubernetes_ingress_service_enabled
               value: "true"
@@ -71,13 +69,13 @@ spec:
                 fieldRef:
                   fieldPath: spec.serviceAccountName
             - name: transformer_conf_kubernetes_persistent_volume_name
-              value: "streamsets-transformer-vol"
+              value: "${TRANSFORMER_NAME}-vol"
             - name: transformer_conf_kubernetes_persistent_volume_mountPath
               value: "/streamsets"
             - name: transformer_conf_kubernetes_persistent_volume_claimName
-              value: "streamsets-transformer-pvc"
+              value: "${TRANSFORMER_NAME}-pvc"
           volumeMounts:
       volumes:
-        - name: streamsets-transformer-vol
+        - name: "${TRANSFORMER_NAME}-vol"
           persistentVolumeClaim:
-            claimName: streamsets-transformer-pvc
+            claimName: "${TRANSFORMER_NAME}-pvc"
