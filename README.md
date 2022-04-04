@@ -125,10 +125,10 @@ After a minute or so, you should see all deployed instances of Transformer are h
   <img src="images/t3.png" width="100%">
 
 
-### Confirm that Transformer is Accessible
-Create a new pipeline and make sure Transformer is accessible for Authoring:
+### Confirm that all deployed Transformer are Accessible
+Create a new pipeline and make sure all Transformers are accessible for Authoring:
 
-  <img src="images/authoring-transformer.png" width="70%">
+  <img src="images/a3.png" width="100%">
 
 ### Create and Run a Pipeline on Local Spark
 Create and run a pipeline on local Spark (which uses the Spark tarball packaged in the Transformer container):
