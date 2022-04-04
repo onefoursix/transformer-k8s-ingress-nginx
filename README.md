@@ -133,7 +133,7 @@ Create a new pipeline and make sure all Transformers are accessible for Authorin
   <img src="images/a3.png" width="100%">
 
 ### Create and Run a Pipeline on Local Spark
-Create and run a pipeline on local Spark (which uses the Spark tarball packaged in the Transformer container):
+Create and run a pipeline on local Spark (which uses the Spark tarball packaged in the Transformer container) using any of the deployed Transformers:
 
   <img src="images/local-spark.png" width="70%">
   
@@ -142,7 +142,7 @@ You should see metrics and status in the UI:
   <img src="images/local-spark-2.png" width="70%">
 
 ### Create and Run a Pipeline on a remote Spark Cluster 
-Create and Run a Pipeline on a remote Spark Cluster to confirm the callback URL is reachable.  For example, I'll run the same pipeline on Databricks and see the status and metrics returned from Databricks:
+Create and Run a Pipeline on a remote Spark Cluster using any of the deployed Transformers to confirm each callback URL is reachable.  For example, I'll run the same pipeline on Databricks and see the status and metrics returned from Databricks:
 
   <img src="images/databricks.png" width="70%">
 
