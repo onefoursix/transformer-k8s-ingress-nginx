@@ -144,4 +144,9 @@ Create and Run a Pipeline on a remote Spark Cluster to confirm the callback URL 
 
   <img src="images/databricks.png" width="70%">
 
+### Implementation Notes
+* Each instance of Transformer has a corresponding Secret, ConfigMap, Service, and Ingress, with each name prefixed with the Transformer's instance name.  
 
+* The Transformer instance name is also used as the path prefix for the callback URL. For example, the ````transformer3```` instance created above has the callback URL ````http://streamsets.onefoursix.com/transformer3````
+
+* A single ServiceAccount, Role, and RoleBinding is used to run all of the Transformer instances within a given namespace.  The ServiceAccount, Role, and RoleBinding are created if they do not exist. 
