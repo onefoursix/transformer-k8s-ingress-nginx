@@ -60,7 +60,7 @@ Important points:
 * The ````LOAD_BALANCER_HOST_NAME```` must correspond to the Ingress Controller's External IP or hostname as described above. For this example I'll use the hostname ````streamsets.onefoursix.com````
 
 
-### Execute the script deploy-transformer.sh with the desired arguments
+### Deploy a single instance of Transformer
 To deploy a single instance of Transformer, execute the script ````deploy-transformer.sh```` with the following arguments (in order):
 * transformer-namespace
 * transformer-name 
@@ -70,19 +70,60 @@ To deploy a single instance of Transformer, execute the script ````deploy-transf
 
 For example:
 ````
-$ ./deploy-transformer.sh \
-        ns1 \
-        transformer \ 
-        streamsets/transformer:scala-2.12_4.2.0 \
-        19630 \
-        transformer,dev
+$ ./deploy-transformer.sh ns1 transformer streamsets/transformer:scala-2.12_4.2.0 19630 transformer,dev
 ````
 
+That command will deploy an instance of Transformer 4.2.0 using the Scala 2.12 image into the namespace ````ns1```` with the Ingress path prefix ````transformer````, with a Service port of ````19630````, and with the Labels ````transformer```` and ````dev````.
 
-### Confirm that Transformer is heartbeating to Control Hub
-After a minute or so, you should see the instance of Transformer has registered and is heartbeating to Control Hub:
+You should see output like this:
+````
+./deploy-transformer.sh ns1 transformer streamsets/transformer:scala-2.12_4.2.0 19630 transformer,dev
+Deploying transformer in namespace ns1...
+Using existing namespace ns1
+Context "gke_streamsets-onefoursix_us-west1-b_cluster-1" modified.
+secret/transformer-creds created
+Looking for existing Service Accounts...
+Creating Service Account streamsets-transformer-sa
+serviceaccount/streamsets-transformer-sa created
+Looking for existing Roles...
+No resources found in ns1 namespace.
+Creating Role streamsets-transformer-role
+role.rbac.authorization.k8s.io/streamsets-transformer-role created
+Looking for existing RolesBindings...
+No resources found in ns1 namespace.
+Creating Role Binding streamsets-transformer-rb
+rolebinding.rbac.authorization.k8s.io/streamsets-transformer-rb created
+configmap/transformer-config created
+persistentvolumeclaim/transformer-pvc created
+deployment.apps/transformer created
+service/transformer created
+ingress.networking.k8s.io/transformer created
+Done
+````
 
-  <img src="images/transformer-heartbeat.png" width="70%">
+### (Optional) Deploy additional instances of Transformer
+
+I'll deploy two more instances of Transformer into the same namespace. 
+
+When deploying more than one instance, make sure to observe the following:
+
+* Each instance's ````transformer-name```` value must be unique
+* Each instance's ````transformer-port````must be unique 
+ 
+For example, I'll install instances with the names ````transformer2```` and ````transformer3````, on ports ````19631```` and ````19632```` respectively, using these two commands:
+
+````
+$ ./deploy-transformer.sh ns1 transformer2 streamsets/transformer:scala-2.12_4.2.0 19631 transformer,dev
+
+$ ./deploy-transformer.sh ns1 transformer3 streamsets/transformer:scala-2.12_4.2.0 19632 transformer,qa
+````
+Note that ````transformer3 has the Label ````qa```` rather than ````dev````.
+
+### Confirm that all deployed instances of Transformer are heartbeating to Control Hub
+After a minute or so, you should see all deployed instances of Transformer are heartbeating to Control Hub, with the specified Labels:
+
+  <img src="images/t3.png" width="70%">
+
 
 ### Confirm that Transformer is Accessible
 Create a new pipeline and make sure Transformer is accessible for Authoring:
