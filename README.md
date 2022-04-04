@@ -75,7 +75,7 @@ For example:
 $ ./deploy-transformer.sh ns1 transformer streamsets/transformer:scala-2.12_4.2.0 19630 transformer,dev
 ````
 
-That command will deploy an instance of Transformer 4.2.0 using the Scala 2.12 image into the namespace ````ns1```` with the Ingress path prefix ````transformer````, with a Service port of ````19630````, and with the Labels ````transformer```` and ````dev````.
+That command will deploy an instance of Transformer 4.2.0 using the Scala 2.12 image into the namespace ````ns1```` with the instance name (and Ingress path prefix) ````transformer````, with a Service port of ````19630````, and with the Labels ````transformer```` and ````dev````.
 
 You should see output like this:
 ````
