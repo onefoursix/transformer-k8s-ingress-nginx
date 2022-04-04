@@ -18,7 +18,7 @@ Follow the steps [here](https://kubernetes.github.io/ingress-nginx/deploy/) to d
 ### Get the Ingress Controller's External IP
 After you have deployed the Ingress Controller, get its external IP:
 
-  <img src="images/nginx-service-ip.png" width="70%">
+  <img src="images/nginx-service-ip.png" width="100%">
 
 ### (Optional) Create a DNS entry for the Ingress Controller's External IP 
 To use a hostname rather than an IP address for the Transformer URL, assign an FQDN to the Ingress Controller's external IP by adding an entry to your DNS.  For example, I'll assign the name ````streamsets.onefoursix.com```` to my Ingress Controller's IP address.  If you don't have access to a DNS, you can skip this step and just use the Ingress Controller's IP address instead.
@@ -107,7 +107,7 @@ I'll deploy two more instances of Transformer into the same namespace.
 
 When deploying more than one instance, make sure to observe the following:
 
-* Each instance's ````transformer-name```` value must be unique
+* Each instance's ````transformer-name```` must be unique
 * Each instance's ````transformer-port````must be unique 
  
 For example, I'll install instances with the names ````transformer2```` and ````transformer3````, on ports ````19631```` and ````19632```` respectively, using these two commands:
@@ -122,7 +122,7 @@ Note that ````transformer3 has the Label ````qa```` rather than ````dev````.
 ### Confirm that all deployed instances of Transformer are heartbeating to Control Hub
 After a minute or so, you should see all deployed instances of Transformer are heartbeating to Control Hub, with the specified Labels:
 
-  <img src="images/t3.png" width="70%">
+  <img src="images/t3.png" width="100%">
 
 
 ### Confirm that Transformer is Accessible
