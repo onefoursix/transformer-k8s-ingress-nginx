@@ -29,19 +29,18 @@ For this example I will create the namespace ````ns1````
 ````$ kubectl create ns ns1````
 
 ### Clone this project to your local machine
-Clone this project to your local machine. 
+Clone this project to your local machine. I'll download the project to my machine at ````~/transformer-k8s-ingress-nginx````
+
+### Set values in conf.sh
+Edit the ````conf/conf.sh```` script and set these environment variables (see below for details):
+
 ````
-
-### Edit the deploy.sh script
-Edit the ````deploy.sh```` script and set these variables at the top of the script (see below for details):
-
-````
-# Control Hub Org ID
-SCH_ORG_ID=<YOUR ORG ID>
-
 # Control Hub Base URL (with no trailing slash)
 # Typically https://na01.hub.streamsets.com
-SCH_URL=<CONTROL HUB URL>
+SCH_URL=https://na01.hub.streamsets.com
+
+# Control Hub Org ID
+SCH_ORG_ID=<YOUR ORG ID>
 
 # Control Hub user CRED ID 
 CRED_ID=<YOUR CRED ID>
@@ -49,55 +48,36 @@ CRED_ID=<YOUR CRED ID>
 # Control Hub user CRED TOKEN 
 CRED_TOKEN=<YOUR CRED TOKEN>
 
-# The Kubernetes namespace to deploy Transformer in 
-# The namespace must exist in advance
-KUBE_NAMESPACE=<YOUR NAMESPACE>
-
-## Set the URL for Transformer as it will be exposed through the Ingress Controller
-## It is recommended to use path-based routing (see below for an example)
-TRANSFORMER_EXTERNAL_URL=<YOUR TRANSFORMER INGRESS URL>
+## Load Balancer HostName or IP
+LOAD_BALANCER_HOST_NAME=<YOUR LOAD BALANCER HOSTNAME OR IP>
 ````
 
 Important points:
 
 * The ````CRED_ID```` and ````CRED_TOKEN```` should be generated for a Control Hub Account with Provisioining Role, typically an administrator.
 
-* The Kubernetes Namespace must exist in advance.
 
-* The ````TRANSFORMER_EXTERNAL_URL```` must correspond to the Ingress Controller's base URL plus the path-prefix to the Transformer instance as set in the ````ingress.yaml```` (see below). For this example I'll use the url ````http://streamsets.onefoursix.com/transformer````
+* The ````LOAD_BALANCER_HOST_NAME```` must correspond to the Ingress Controller's External IP or hostname as described above. For this example I'll use the hostname ````streamsets.onefoursix.com````
 
-### Edit transformer.yaml
 
-Edit the file ````yaml/transformer.yaml```` and set the version of Transformer to use. For example, for Spark 3.x clusters that require Scala 2.12, set:
+### Execute the script deploy-transformer.sh with the desired arguments
+To deploy a single instance of Transformer, execute the script ````deploy-transformer.sh```` with the following arguments (in order):
+* transformer-namespace
+* transformer-name 
+* transformer-image 
+* port-number
+* transformer-labels
 
- ```` image: streamsets/transformer:scala-2.12_4.2.0```` 
- 
- or for Spark 2.x clusters that require Scala 2.11, set 
- 
-```` image: streamsets/transformer:scala-2.11_4.2.0````
-
-See the [Cluster Compatibility Matrix](https://docs.streamsets.com/portal/platform-transformer/latest/transformer/Installation/Install-Reqs.html#concept_yyv_s5y_5pb) for details.
-
-### Edit ingress.yaml
-
-By default the path prefix is set to ````/transformer````.  This path prefix will be appended to the base URL of the Ingress Controller to match the value set in the ````deploy.sh```` script's ````TRANSFORMER_EXTERNAL_URL```` variable, which in my environment is ````http://streamsets.onefoursix.com/transformer````.
-
-### Execute the deploy.sh script
-Execute the ````deploy.sh```` script.  You should see output like this:
-
+For example:
 ````
-$ ./deploy.sh
-Context "gke_streamsets-onefoursix_us-west1-a_cluster-1" modified.
-secret/streamsets-transformer-creds created
-configmap/streamsets-transformer-config created
-serviceaccount/streamsets-transformer created
-role.rbac.authorization.k8s.io/streamsets-transformer created
-rolebinding.rbac.authorization.k8s.io/streamsets-transformer created
-persistentvolumeclaim/streamsets-transformer-pvc created
-deployment.apps/transformer created
-service/transformer created
-ingress.networking.k8s.io/transformer created
+$ ./deploy-transformer.sh \
+        ns1 \
+        transformer \ 
+        streamsets/transformer:scala-2.12_4.2.0 \
+        19630 \
+        transformer,dev
 ````
+
 
 ### Confirm that Transformer is heartbeating to Control Hub
 After a minute or so, you should see the instance of Transformer has registered and is heartbeating to Control Hub:

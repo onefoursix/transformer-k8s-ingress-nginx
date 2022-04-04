@@ -32,8 +32,6 @@ spec:
             - containerPort: ${TRANSFORMER_PORT}
               protocol: TCP
           env:
-            - name: transformer_conf_http_port
-              value: "${TRANSFORMER_PORT}"
             - name: dpm_conf_dpm_enabled
               value: "true"
             - name: dpm_conf_dpm_base_url

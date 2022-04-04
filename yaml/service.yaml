@@ -5,11 +5,11 @@ metadata:
   labels:
     app:  "${TRANSFORMER_NAME}"
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: http
       port: ${TRANSFORMER_PORT}
-      targetPort: ${TRANSFORMER_PORT}
+      targetPort: 19630
       protocol: TCP
   selector:
     app:  "${TRANSFORMER_NAME}"
