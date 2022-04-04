@@ -57,7 +57,7 @@ Important points:
 * The ````CRED_ID```` and ````CRED_TOKEN```` should be generated for a Control Hub Account with Provisioining Role, typically an administrator.
 
 
-* The ````LOAD_BALANCER_HOST_NAME```` must correspond to the Ingress Controller's External IP or hostname as described above. For this example I'll use the hostname ````streamsets.onefoursix.com````. Note that this value is not a, URL, it should be only a hostname or IP address.  Each Transformer's URL will be created dynamically by the project's scripts. 
+* The ````LOAD_BALANCER_HOST_NAME```` must correspond to the Ingress Controller's External IP or hostname as described above. For this example I'll use the hostname ````streamsets.onefoursix.com````. Note that this value is not a URL; it should be set to only a hostname or IP address. 
 
 
 ### Deploy a single instance of Transformer
