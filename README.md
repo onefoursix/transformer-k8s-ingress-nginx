@@ -11,18 +11,36 @@ Multiple instances of Transformer can be installed within the same namespace, or
 * [uuidgen](https://man7.org/linux/man-pages/man1/uuidgen.1.html) must be installed on the machine where this project's scripts are run
 * [envsubst](https://linux.die.net/man/1/envsubst) must be installed on the machine where this project's scripts are run. Most systems will have ````envsubst```` installed by default.
 * The [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) Ingress Controller must be installed in advance (see below)
+* [Helm 3](https://helm.sh/docs/intro/install/) must be installed on the client machine in order to deploy ingress-nginx on a private IP
 * The Kubernetes namespace must be created in advance (see below) 
 
 ### Deploy the Ingress Controller
-Follow the steps [here](https://kubernetes.github.io/ingress-nginx/deploy/) to deploy ````ingress-nginx```` on your cluster.  If your Kubernetes cluster is on a public cloud, use a Load-Balancer type deployment, else use a NodePort. For this example I will deploy on GKE using a Load-Balancer type Ingress Controller.
 
+If your Kubernetes cluster is on a public cloud, use a Load-Balancer type deployment, else use a NodePort. For this example I will deploy on GKE using a Load-Balancer type Ingress Controller, with examples for both public and private IP addresses.
 
-### Get the Ingress Controller's External IP
-After you have deployed the Ingress Controller, get its external IP:
+#### Deploying the Ingress Controller Load Balancer with a public IP address
+Follow the steps [here](https://kubernetes.github.io/ingress-nginx/deploy/) to deploy ````ingress-nginx```` on your cluster with a public IP address.  
+
+Get the Ingress Controller's public IP:
 
   <img src="images/nginx-service-ip.png" width="100%">
 
-### (Optional) Create a DNS entry for the Ingress Controller's External IP 
+#### Deploying the Ingress Controller Load Balancer with a private IP address
+
+Execute the following command to install ingress-nginx with a private Load Balancer IP address:
+````
+$ helm install ingress-nginx ingress-nginx/ingress-nginx \
+ --version 4.1.4 \
+ --namespace ingress-nginx --create-namespace \
+ --set controller.service.annotations."cloud\.google\.com/load-balancer-type"="Internal"
+
+````
+Get the Ingress Controller's private IP:
+
+  <img src="images/nginx-service-private-ip.png" width="100%">
+
+
+### (Optional) Create a DNS entry for the Ingress Controller's  IP 
 To use a hostname rather than an IP address for the Transformer URL, assign an FQDN to the Ingress Controller's external IP by adding an entry to your DNS.  For example, I'll assign the name ````streamsets.onefoursix.com```` to my Ingress Controller's IP address.  If you don't have access to a DNS, you can skip this step and just use the Ingress Controller's IP address instead.
 
 ### Create the Kubernetes Namespace
@@ -72,14 +90,14 @@ To deploy a single instance of Transformer, execute the script ````deploy-transf
 
 For example:
 ````
-$ ./deploy-transformer.sh ns1 transformer streamsets/transformer:scala-2.12_4.2.0 19630 transformer,dev
+$ ./deploy-transformer.sh ns1 transformer streamsets/transformer:scala-2.12_5.0.0 19630 transformer,dev
 ````
 
 That command will deploy an instance of Transformer 4.2.0 using the Scala 2.12 image into the namespace ````ns1```` with the instance name (and Ingress path prefix) ````transformer````, with a Service port of ````19630````, and with the Labels ````transformer```` and ````dev````.
 
 You should see output like this:
 ````
-./deploy-transformer.sh ns1 transformer streamsets/transformer:scala-2.12_4.2.0 19630 transformer,dev
+./deploy-transformer.sh ns1 transformer streamsets/transformer:scala-2.12_5.0.0 19630 transformer,dev
 Deploying transformer in namespace ns1...
 Using existing namespace ns1
 Context "gke_streamsets-onefoursix_us-west1-b_cluster-1" modified.
@@ -115,9 +133,9 @@ When deploying more than one instance, make sure to observe the following:
 For example, I'll install instances with the names ````transformer2```` and ````transformer3````, on ports ````19631```` and ````19632```` respectively, using these two commands:
 
 ````
-$ ./deploy-transformer.sh ns1 transformer2 streamsets/transformer:scala-2.12_4.2.0 19631 transformer,dev
+$ ./deploy-transformer.sh ns1 transformer2 streamsets/transformer:scala-2.12_5.0.0 19631 transformer,dev
 
-$ ./deploy-transformer.sh ns1 transformer3 streamsets/transformer:scala-2.12_4.2.0 19632 transformer,qa
+$ ./deploy-transformer.sh ns1 transformer3 streamsets/transformer:scala-2.12_5.0.0 19632 transformer,qa
 ````
 Note that ````transformer3 has the Label ````qa```` rather than ````dev````.
 
