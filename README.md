@@ -18,8 +18,8 @@ Multiple instances of Transformer can be installed within the same namespace, or
 
 If your Kubernetes cluster is on a public cloud, use a Load-Balancer type deployment, else use a NodePort. For this example I will deploy on GKE using a Load-Balancer type Ingress Controller, with examples for both public and private IP addresses.
 
-#### Deploying the Ingress Controller Load Balancer with a public IP address
-Follow the steps [here](https://kubernetes.github.io/ingress-nginx/deploy/) to deploy ````ingress-nginx```` on your cluster with a public IP address.  
+#### Deploying the Ingress Controller Load Balancer with a public IP address.  
+Follow the steps [here](https://kubernetes.github.io/ingress-nginx/deploy/) to deploy ````ingress-nginx```` on your cluster with a public IP address.  DO NOT execute this command if you want to deploy using a private IP (use the next command instead):
 
 Get the Ingress Controller's public IP:
 
