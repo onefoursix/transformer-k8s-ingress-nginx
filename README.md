@@ -77,7 +77,7 @@ Important points:
 * The ````CRED_ID```` and ````CRED_TOKEN```` should be generated for a Control Hub Account with Provisioining Role, typically an administrator.
 
 
-* The ````LOAD_BALANCER_HOST_NAME```` must correspond to the Ingress Controller's External IP or hostname as described above. For this example I'll use the hostname ````streamsets.onefoursix.com````. Note that this value is not a URL; it should be set to only a hostname or IP address. 
+* The ````LOAD_BALANCER_HOST_NAME```` must correspond to the Ingress Controller's External IP (whether public or private) or hostname as described above. For this example I'll use the hostname ````streamsets.onefoursix.com````. Note that this value is not a URL; it should be set to only a hostname or IP address. 
 
 
 ### Deploy a single instance of Transformer
@@ -93,7 +93,7 @@ For example:
 $ ./deploy-transformer.sh ns1 transformer streamsets/transformer:scala-2.12_5.0.0 19630 transformer,dev
 ````
 
-That command will deploy an instance of Transformer 4.2.0 using the Scala 2.12 image into the namespace ````ns1```` with the instance name (and Ingress path prefix) ````transformer````, with a Service port of ````19630````, and with the Labels ````transformer```` and ````dev````.
+That command will deploy an instance of Transformer 5.0.0 using the Scala 2.12 image into the namespace ````ns1```` with the instance name (and Ingress path prefix) ````transformer````, with a Service port of ````19630````, and with the Labels ````transformer```` and ````dev````.
 
 You should see output like this:
 ````
